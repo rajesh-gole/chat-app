@@ -69,7 +69,6 @@ const loginUser = async (req, res) => {
 }
 
 //Find single user
-
 const findUser = async (req, res) => {
     const userId = req.params.userId;
     try {
@@ -82,4 +81,16 @@ const findUser = async (req, res) => {
     }
 }
 
-module.exports = {registerUser, loginUser, findUser}
+//Find all users
+const getUsers = async (req, res) => {
+    try {
+        const users = await userModel.find() 
+        res.status(200).json(users)
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error)
+    }
+}
+
+module.exports = {registerUser, loginUser, findUser, getUsers}
