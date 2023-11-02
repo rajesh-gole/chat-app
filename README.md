@@ -10,17 +10,17 @@ Before run thr project, install the packages using the below commend for theree 
 ```js
 $ npm install
 ```
-#### To Start Client 
+#### To Start Client : http://localhost:5173
 
 ```js
 npm run dev
 ```
-#### To Start Server 
+#### To Start Server : http://localhost:5000
 
 ```js
 nodemon
 ```
-#### To Start Socket
+#### To Start Socket : http://localhost:3000
 
 ```js
 nodemon
