@@ -8,9 +8,15 @@ export const ChatContextProvider = ({ children, user }) => {
     const [isUserChatsLoading, setIsUserChatsLoading] = useState(false)
     const [userChatsError, setUserChatsError] = useState(null)
     const [potentialChats, setPotentialChats] = useState([])
+    const [currentChat, setCurrentChat] = useState(null)
+    const [messages, setMessages] = useState(null)
+    const [isMessagesLoading, setIsMessagesLoading] = useState(false)
+    const [messagesError, setMessagesError] = useState(null)
+
+    console.log("messages",messages);
 
     useEffect(() => {
-        const getUsers = async () => {
+        const getUsers = async() => {
             const response = await getRequest(`${baseUrl}/users`);
             if (response.error) {
                 return console.log(response);
@@ -31,7 +37,6 @@ export const ChatContextProvider = ({ children, user }) => {
         getUsers()
     },[userChats])
 
-
     useEffect(() => {
         const getUserChats = async () => {
             if (user?._id) {
@@ -47,7 +52,26 @@ export const ChatContextProvider = ({ children, user }) => {
             }
         }
         getUserChats()
-    },[user])
+    }, [user]);
+
+    useEffect(() => {
+        const getMessages = async() => {
+                setIsMessagesLoading(true)
+                setMessagesError(null)
+                const response = await getRequest(`${baseUrl}/messages/${currentChat?._id}`)
+                setIsMessagesLoading(false)
+                
+                if (response.error) {
+                    return setMessagesError(response)
+                }
+                setMessages(response)
+        }
+        getMessages()
+    }, [currentChat]);
+    
+    const updateCurrentChat = useCallback((chat) => {
+        setCurrentChat(chat)
+    },[])
 
     const createChat = useCallback(async(firstId, secondId) => {
         const response = await postRequest(`${baseUrl}/chats`, JSON.stringify({
@@ -62,6 +86,6 @@ export const ChatContextProvider = ({ children, user }) => {
     },[])
 
     return <ChatContext.Provider value={{
-        userChats,isUserChatsLoading,userChatsError, potentialChats,createChat
+        userChats,isUserChatsLoading,userChatsError, potentialChats,createChat,updateCurrentChat,messages, isMessagesLoading, messagesError, currentChat
     }}>{children}</ChatContext.Provider>
 }
