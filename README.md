@@ -25,4 +25,16 @@ nodemon
 ```js
 nodemon
 ```
+#### Login Credentials :
+User-1
+```js
+Email : rajesh@gmail.com
+Password : Rajesh123&
+```
+
+User-2
+```js
+Email : moumita@gmail.com
+Password : Moumita123&
+```
 
